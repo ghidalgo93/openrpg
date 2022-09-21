@@ -1,1 +1,3 @@
-# TypeScript Project Boilderplate
+# OpenRPG
+
+project for an open role-playing game application

@@ -1,5 +1,12 @@
-const world = "world";
+import { ApolloServer } from 'apollo-server';
 
-export const hello = (who: string = world) => {
-  return `Hello, ${who}!`;
-};
+import { schema } from './schema';
+export const server = new ApolloServer({
+  schema,
+});
+
+const port = 3000;
+
+server.listen({ port }).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
