@@ -10,6 +10,7 @@ type Avatar {
 
 type Mutation {
   create(health: Int!, name: String!): Avatar!
+  delete(id: Int!): Avatar
 }
 
 type Query {

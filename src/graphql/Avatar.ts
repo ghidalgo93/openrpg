@@ -1,3 +1,4 @@
+import { assertValidSDL } from 'graphql/validation/validate';
 import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus';
 import { NexusGenObjects } from '../../nexus-typegen';
 
@@ -10,7 +11,7 @@ export const Avatar = objectType({
   },
 });
 
-const avatars: NexusGenObjects['Avatar'][] = [
+let avatars: NexusGenObjects['Avatar'][] = [
   {
     id: 1,
     name: 'foo',
@@ -51,7 +52,7 @@ export const queryAvatar = extendType({
   },
 });
 
-export const LinkMutation = extendType({
+export const createAvatar = extendType({
   type: 'Mutation',
   definition(t) {
     t.nonNull.field('create', {
@@ -71,6 +72,25 @@ export const LinkMutation = extendType({
         };
         avatars.push(avatar);
         return avatar;
+      },
+    });
+  },
+});
+
+export const deleteAvatar = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('delete', {
+      type: 'Avatar',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve(source, args, context, info) {
+        const { id } = args;
+        const deletedAvatar = avatars.find(avatar => avatar.id === id);
+        const filtered = avatars.filter(avatar => avatar.id !== id);
+        avatars = filtered;
+        return deletedAvatar;
       },
     });
   },
