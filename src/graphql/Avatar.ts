@@ -1,13 +1,10 @@
 import {
   objectType,
-  extendType,
   nonNull,
   stringArg,
   intArg,
   queryField,
-  nullable,
   list,
-  mutationType,
   mutationField,
 } from 'nexus';
 import { NexusGenObjects } from '../../nexus-typegen';
@@ -83,6 +80,19 @@ export const createAvatar = mutationField('createAvatar', {
   },
 });
 
+export const updatedAvatar = mutationField('updatedAvatar', {
+  type: 'Avatar',
+  args: {
+    id: nonNull(intArg()),
+    name: stringArg(),
+    health: intArg(),
+  },
+  resolve(args) {
+    const { id, name, health } = args;
+    const updatedAvatar = avatars[id];
+  },
+});
+
 // export const updateAvatar = extendType({
 //   type: 'Mutation',
 //   definition(t) {
@@ -108,21 +118,17 @@ export const createAvatar = mutationField('createAvatar', {
 //   },
 // });
 
-export const deleteAvatar = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.field('delete', {
-      type: 'Avatar',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve(source, args, context, info) {
-        const { id } = args;
-        const deletedAvatar = avatars.find(avatar => avatar.id === id);
-        const filteredAvatars = avatars.filter(avatar => avatar.id !== id);
-        avatars = filteredAvatars;
-        return deletedAvatar;
-      },
-    });
+export const deleteAvatar = mutationField('deleteAvatar', {
+  type: 'Avatar',
+  args: {
+    id: nonNull(intArg()),
+  },
+  resolve(source, args, context, info) {
+    const { id } = args;
+    const deletedAvatar = avatars.find(avatar => avatar.id === id);
+    if (!deletedAvatar) return null;
+    const filteredAvatars = avatars.filter(avatar => avatar.id !== id);
+    avatars = filteredAvatars;
+    return deletedAvatar;
   },
 });

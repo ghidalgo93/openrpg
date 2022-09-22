@@ -9,11 +9,11 @@ type Avatar {
 }
 
 type Mutation {
-  create(health: Int!, name: String!): Avatar!
-  delete(id: Int!): Avatar
+  createAvatar(health: Int!, name: String!): Avatar
+  deleteAvatar(id: Int!): Avatar
 }
 
 type Query {
-  avatar(id: Int!): Avatar!
+  avatar(id: Int!): Avatar
   avatars: [Avatar!]!
 }

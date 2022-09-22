@@ -54,11 +54,11 @@ export interface NexusGenFieldTypes {
     name: string; // String!
   }
   Mutation: { // field return type
-    create: NexusGenRootTypes['Avatar']; // Avatar!
-    delete: NexusGenRootTypes['Avatar'] | null; // Avatar
+    createAvatar: NexusGenRootTypes['Avatar'] | null; // Avatar
+    deleteAvatar: NexusGenRootTypes['Avatar'] | null; // Avatar
   }
   Query: { // field return type
-    avatar: NexusGenRootTypes['Avatar']; // Avatar!
+    avatar: NexusGenRootTypes['Avatar'] | null; // Avatar
     avatars: NexusGenRootTypes['Avatar'][]; // [Avatar!]!
   }
 }
@@ -70,8 +70,8 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
   }
   Mutation: { // field return type name
-    create: 'Avatar'
-    delete: 'Avatar'
+    createAvatar: 'Avatar'
+    deleteAvatar: 'Avatar'
   }
   Query: { // field return type name
     avatar: 'Avatar'
@@ -81,11 +81,11 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
-    create: { // args
+    createAvatar: { // args
       health: number; // Int!
       name: string; // String!
     }
-    delete: { // args
+    deleteAvatar: { // args
       id: number; // Int!
     }
   }
