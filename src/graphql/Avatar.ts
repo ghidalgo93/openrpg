@@ -7,6 +7,8 @@ import {
   queryField,
   nullable,
   list,
+  mutationType,
+  mutationField,
 } from 'nexus';
 import { NexusGenObjects } from '../../nexus-typegen';
 
@@ -62,27 +64,22 @@ export const queryAvatar = queryField('avatar', {
   },
 });
 
-export const createAvatar = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.nonNull.field('create', {
-      type: 'Avatar',
-      args: {
-        name: nonNull(stringArg()),
-        health: nonNull(intArg()),
-      },
-      resolve(parent, args, context) {
-        const { name, health } = args;
-        const idCount = avatars.length + 1;
-        const avatar = {
-          id: idCount,
-          name,
-          health,
-        };
-        avatars.push(avatar);
-        return avatar;
-      },
-    });
+export const createAvatar = mutationField('createAvatar', {
+  type: 'Avatar',
+  args: {
+    name: nonNull(stringArg()),
+    health: nonNull(intArg()),
+  },
+  resolve(parent, args, context) {
+    const { name, health } = args;
+    const idCount = avatars.length + 1;
+    const avatar = {
+      id: idCount,
+      name,
+      health,
+    };
+    avatars.push(avatar);
+    return avatar;
   },
 });
 
