@@ -1,4 +1,4 @@
-import { objectType, extendType } from 'nexus';
+import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus';
 import { NexusGenObjects } from '../../nexus-typegen';
 
 export const Avatar = objectType({
@@ -23,13 +23,54 @@ const avatars: NexusGenObjects['Avatar'][] = [
   },
 ];
 
-export const AvatarQuery = extendType({
+export const queryAvatars = extendType({
   type: 'Query',
   definition(t) {
-    t.nonNull.list.nonNull.field('queryAvatars', {
+    t.nonNull.list.nonNull.field('avatars', {
       type: 'Avatar',
       resolve(parent, args, context, info) {
         return avatars;
+      },
+    });
+  },
+});
+
+export const queryAvatar = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.field('avatar', {
+      type: 'Avatar',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve(source, args, context, info) {
+        const { id } = args;
+        return avatars[id - 1];
+      },
+    });
+  },
+});
+
+export const LinkMutation = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.nonNull.field('create', {
+      type: 'Avatar',
+      args: {
+        name: nonNull(stringArg()),
+        health: nonNull(intArg()),
+      },
+      resolve(parent, args, context) {
+        const { name, health } = args;
+
+        const idCount = avatars.length + 1;
+        const avatar = {
+          id: idCount,
+          name,
+          health,
+        };
+        avatars.push(avatar);
+        return avatar;
       },
     });
   },

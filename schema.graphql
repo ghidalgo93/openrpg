@@ -8,6 +8,11 @@ type Avatar {
   name: String!
 }
 
+type Mutation {
+  create(health: Int!, name: String!): Avatar!
+}
+
 type Query {
-  queryAvatars: [Avatar!]!
+  avatar(id: Int!): Avatar!
+  avatars: [Avatar!]!
 }

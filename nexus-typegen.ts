@@ -33,6 +33,7 @@ export interface NexusGenObjects {
     id: number; // Int!
     name: string; // String!
   }
+  Mutation: {};
   Query: {};
 }
 
@@ -52,8 +53,12 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     name: string; // String!
   }
+  Mutation: { // field return type
+    create: NexusGenRootTypes['Avatar']; // Avatar!
+  }
   Query: { // field return type
-    queryAvatars: NexusGenRootTypes['Avatar'][]; // [Avatar!]!
+    avatar: NexusGenRootTypes['Avatar']; // Avatar!
+    avatars: NexusGenRootTypes['Avatar'][]; // [Avatar!]!
   }
 }
 
@@ -63,12 +68,27 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     name: 'String'
   }
+  Mutation: { // field return type name
+    create: 'Avatar'
+  }
   Query: { // field return type name
-    queryAvatars: 'Avatar'
+    avatar: 'Avatar'
+    avatars: 'Avatar'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    create: { // args
+      health: number; // Int!
+      name: string; // String!
+    }
+  }
+  Query: {
+    avatar: { // args
+      id: number; // Int!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
